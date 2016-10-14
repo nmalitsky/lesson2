@@ -38,16 +38,29 @@ module.exports = {
 		return hideList;
 	},
 
-	seek: function(path) {
+	seek: function(path, callback) {
 		let findList = new PokemonList();
-		for(let i = 0; i < 10; i++) {
-			let file = `${path}/${(i < 9 ? '0' : '') + (i + 1)}/pokemon.txt`;
-			fs.readFile(file, 'utf-8', function(err, obj) {
-				if(!err) {
-					findList.add(obj.name, obj.level);
-					findList.show();
-				}
-			});
-		}
+
+    		fs.readdir( path, function( error, subDirs ) {
+        		if ( error ) {
+            			console.log('Error find path:', path);
+        		} else {
+            			var readSubDirs = function(index, callback) {
+                			if ( index == subDirs.length ) {
+						return callback(null, findList)
+	                		} else {
+			    			let file = `${path}/${subDirs[index]}/pokemon.txt`;
+	                    			fs.readFile( file, 'utf-8', function( error, data ) {
+                        				if ( !error ) {
+								let obj = JSON.parse(data);
+								findList.add(obj.name, obj.level);
+	                        			}
+							readSubDirs(index + 1, callback)
+			    			});
+                			}
+            			};
+            			readSubDirs(0, callback);
+        		}
+    		});
 	}
 };

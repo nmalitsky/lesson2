@@ -25,5 +25,12 @@ let pokemons = new PokemonList(
 );
 
 
-//hidenseek.hide('./field', pokemons);
-hidenseek.seek('./field');
+hidenseek.hide('./field', pokemons);
+
+hidenseek.seek('./field', function(error, pokemons) {
+	if (error) {
+		console.log('error in seek', error);
+	} else {
+		pokemons.show();
+	}
+});
