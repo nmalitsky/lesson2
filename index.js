@@ -1,36 +1,44 @@
-/*
 var app_args = process.argv.slice(2);
 
 if(app_args.length == 0) {
-   console.log("Usage:");
-   console.log("HIDE: node index hide ./field/ ./pokemons.json");
-   console.log("SEEK: node index seek ./field/");
-   process.exit(1);
+	require('./usage');
 }
-*/
 
 const hidenseek = require('./hidenseek');
-
 const Pokemon = require('./pokemon');
 const PokemonList = require('./pokemonlist');
 
-let pokemons = new PokemonList(	
-	new Pokemon('Zirk', 3),
-	new Pokemon('Zaza', 5),
-	new Pokemon('Kirk', 1),
-	new Pokemon('ZZKirk', 1),
-	new Pokemon('fdfdKirk', 1),
-	new Pokemon('faaaa', 1),
-	new Pokemon('bbbbb', 1)
-);
+switch(app_args[0]) {
+	case 'hide':
+		if(app_args.length < 3) {
+			console.log('Error: arguments is less than three');
+			require('./usage');
+		}
+		const pokemons = require(app_args[2]);
+		const objects = pokemons.map(obj => new Pokemon(obj.name, obj.level));
+		let pokemonList = new PokemonList(...objects);
+		hidePokemons = hidenseek.hide(app_args[1], pokemonList);
+		console.log('hide pokemons list:');
+		hidePokemons.show();
+		break;
+	case 'seek':
+		if(app_args.length < 2) {
+			console.log('Error: arguments is less than two');
+			require('./usage');
+		}
+		hidenseek.seek(app_args[1], function(error, seekPokemons) {
+			if (!error) {
+				console.log('seek pokemons list:');
+				seekPokemons.show();
+			}
+		});
+		break;
+	default:
+		console.log('Error: incorrect command');
+		require('./usage');
+}
 
 
-hidenseek.hide('./field', pokemons);
 
-hidenseek.seek('./field', function(error, pokemons) {
-	if (error) {
-		console.log('error in seek', error);
-	} else {
-		pokemons.show();
-	}
-});
+
+
