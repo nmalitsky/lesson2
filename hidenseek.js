@@ -9,7 +9,7 @@ const PokemonList = require('./pokemonlist');
 const maxHideList = 3;
 
 module.exports = {
-    hide: function (path, pokemonList, callback) {
+    hide(path, pokemonList, callback) {
 	// select 3 pokemons for hide
         let hideList = require('./hidelist')(pokemonList, 3);
 
@@ -22,7 +22,7 @@ module.exports = {
 	});
     },
 
-    seek: function (path, callback) {
+    seek(path, callback) {
         let findList = new PokemonList();
 
         fs.readdir(path, (error, subDirs) => {
