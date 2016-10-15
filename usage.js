@@ -1,3 +1,5 @@
+// programm commands
+
 console.log("Hide & Seek Pokemons v.0.1");
 console.log("Usage:");
 console.log("HIDE: node index hide ./field ./pokemons.json");

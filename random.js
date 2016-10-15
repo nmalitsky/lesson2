@@ -1,3 +1,5 @@
+// random in specified interval
+
 const random = (min, max) => {
 	min = Math.ceil(min);
 	max = Math.floor(max);

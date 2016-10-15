@@ -1,3 +1,5 @@
+// Pokemon class
+
 'use strict';
 
 module.exports = class Pokemon {

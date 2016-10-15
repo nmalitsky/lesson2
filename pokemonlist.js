@@ -1,3 +1,5 @@
+// PokemonList class
+
 'use strict';
 
 const Pokemon = require('./pokemon');
